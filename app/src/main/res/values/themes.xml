@@ -1,0 +1,40 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="bottom_sheet_pillowColor">@color/pillow_light</item>
+        <item name="bottom_sheet_textColor">@color/bs_text_light</item>
+        <item name="bottom_sheet_background">@color/background_light</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?android:colorBackground</item>
+        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+    </style>
+
+    <style name="GradientButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/gradient</item>
+        <item name="android:elevation">8dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#303030</item>
+        <item name="android:paddingEnd">40dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingStart">40dp</item>
+        <item name="android:paddingTop">10dp</item>
+    </style>
+
+    <style name="GradientButtonCircle" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="background">@drawable/gradient_circle</item>
+        <item name="android:elevation">8dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#303030</item>
+        <item name="android:padding">0dp</item>
+    </style>
+
+    <!-- BottomSheetDialog personalizzato -->
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetDialogStyle</item>
+    </style>
+
+    <style name="BottomSheetDialogStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+</resources>

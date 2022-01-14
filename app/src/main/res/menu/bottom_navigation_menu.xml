@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/page_1"
+        android:enabled="true"
+        android:title="Classifica"
+        android:icon="@drawable/chart_icon"/>
+    <item
+        android:id="@+id/page_2"
+        android:enabled="true"
+        android:title="Home"
+        android:icon="@drawable/home_icon"/>
+    <item
+        android:id="@+id/page_3"
+        android:enabled="true"
+        android:title="Profilo"
+        android:icon="@drawable/profile_icon"/>
+</menu>

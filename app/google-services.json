@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "124328407791",
+    "firebase_url": "https://ecodrive-84b22-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "ecodrive-84b22",
+    "storage_bucket": "ecodrive-84b22.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124328407791:android:8cdcd5c8b4c78d875ee11a",
+        "android_client_info": {
+          "package_name": "com.silvered.ecodrive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "124328407791-uj9md599o5tks4mimvg1d8ks269hli43.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.silvered.ecodrive",
+            "certificate_hash": "8d738e1985dac843d6173a666ddf8804343fe680"
+          }
+        },
+        {
+          "client_id": "124328407791-s4b71bcfb2td5qtmqve6s1cuanbf9qb9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaY2HUXTJ1ppy4eijiyHuEPcZ5gbO-5Zw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "124328407791-s4b71bcfb2td5qtmqve6s1cuanbf9qb9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
