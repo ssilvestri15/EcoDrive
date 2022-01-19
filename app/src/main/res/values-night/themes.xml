@@ -6,5 +6,31 @@
         <item name="bottom_sheet_background">@color/background_dark</item>
         <item name="android:statusBarColor" tools:targetApi="l">?android:colorBackground</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+        <item name="tabStyle">@style/TabStyle</item>
     </style>
+
+    <style name="TabStyle" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabTextAppearance">@style/TabTextAppearance</item>
+        <item name="tabTextColor">?attr/colorOnSurface</item>
+        <item name="tabSelectedTextColor">?attr/colorOnPrimary</item>
+        <item name="tabBackground">@drawable/tab_selector</item>
+        <item name="tabIndicator">@drawable/tab_selected</item>
+        <item name="tabIndicatorColor">?attr/colorPrimary</item>
+        <item name="tabMode">scrollable</item>
+        <item name="tabGravity">center</item>
+        <item name="tabIndicatorGravity">stretch</item>
+        <item name="tabPaddingStart">16dp</item>
+        <item name="tabPaddingEnd">16dp</item>
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabRippleColor">@null</item>
+    </style>
+
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
 </resources>
