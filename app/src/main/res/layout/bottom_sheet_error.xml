@@ -43,7 +43,8 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginTop="20dp"
-                    android:textColor="?attr/bottom_sheet_textColor" />
+                    android:textColor="?attr/bottom_sheet_textColor"
+                    android:fontFamily="@font/poppins" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/bottomSheet_message"
@@ -51,7 +52,8 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:layout_marginTop="20dp"
-                    android:textColor="?attr/bottom_sheet_textColor" />
+                    android:textColor="?attr/bottom_sheet_textColor"
+                    android:fontFamily="@font/poppins" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/cancel_button"
@@ -61,7 +63,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_gravity="end"
                     android:backgroundTint="@color/pink"
-                    android:textColor="@color/strange_orange"/>
+                    android:fontFamily="@font/poppins" />
 
             </LinearLayout>
 

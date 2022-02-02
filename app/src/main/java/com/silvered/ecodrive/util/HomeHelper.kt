@@ -15,11 +15,21 @@ object HomeHelper {
         fun onError(error: DatabaseError)
     }
 
+    interface HomeHelperUpdate {
+        fun onNeedToUpdate()
+    }
+
+    var record: Int = 0
     var needToUpdate: Boolean? = null
+
     var listChart: ArrayList<BigDecimal>? = null
     var positionLocal: Long? = null
     var positionGlobal: Long? = null
+    var punteggioMedio: Int? = null
+    var levelName: String = ""
     private var listener: HomeHelperCallback? = null
+    private var listenerUpdate: HomeHelperUpdate? = null
+    private val database = FirebaseDatabase.getInstance()
 
     private val TAG = "HomeHelper"
 
@@ -34,17 +44,100 @@ object HomeHelper {
      * Aggiorna la ui
      *
      */
-    fun getData(uid: String, nazione: String, listener: HomeHelperCallback?) {
+    fun getData(uid: String, nazione: String, regione: String, listener: HomeHelperCallback?) {
 
         Thread {
 
-            Log.d(TAG,"Inzio a prendere i dati")
+            Log.d(TAG, "Inzio a prendere i dati")
 
             if (listener != null)
                 setListener(listener)
 
-            val database = FirebaseDatabase.getInstance().getReference("users/$uid/routes")
-            database.limitToLast(5).addListenerForSingleValueEvent(object : ValueEventListener {
+            getUserData(uid, nazione, regione)
+
+
+        }.start()
+    }
+
+    private fun getUserData(uid: String, nazione: String, regione: String) {
+
+        database.getReference("users/$uid")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                    if (!dataSnapshot.exists()) {
+                        //Eccezione
+                        return
+                    }
+
+                    handleUserData(dataSnapshot, uid, nazione, regione)
+
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    listener?.onError(databaseError)
+                }
+            })
+
+
+    }
+
+    private fun handleUserData(
+        dataSnapshot: DataSnapshot,
+        uid: String,
+        nazione: String,
+        regione: String
+    ) {
+
+        punteggioMedio = dataSnapshot.child("punteggioMedio").getValue(Int::class.java)
+        if (punteggioMedio == null)
+            punteggioMedio = 0
+
+        var level = dataSnapshot.child("level").getValue(Int::class.java)
+
+        if (level == null)
+            level = 1
+
+        if (punteggioMedio!! <= 10)
+            level = 1
+
+        if (punteggioMedio!! in 11..25)
+            level = 2
+
+        if (punteggioMedio!! in 26..35)
+            level = 3
+
+        if (punteggioMedio!! in 36..50)
+            level = 4
+
+        if (punteggioMedio!! in 51..80)
+            level = 5
+
+        if (punteggioMedio!! > 80)
+            level = 6
+
+        database.getReference("users/$uid").child("level").setValue(level)
+
+        when (level) {
+            1 -> levelName = "Aereo"
+            2 -> levelName = "Nave"
+            3 -> levelName = "Trattore"
+            4 -> levelName = "Macchina"
+            5 -> levelName = "Motorino"
+            6 -> levelName = "Bicicletta"
+        }
+
+        val recordDB = dataSnapshot.child("record").getValue(Int::class.java)
+
+        if (recordDB != null)
+            record = recordDB
+
+        getRoutes(uid, nazione, regione)
+    }
+
+    private fun getRoutes(uid: String, nazione: String, regione: String) {
+        database.getReference("users/$uid/routes").limitToLast(5)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                     if (!dataSnapshot.exists()) {
@@ -56,19 +149,23 @@ object HomeHelper {
                         return
                     }
 
-                    handleRoutesData(uid, nazione, dataSnapshot)
+                    handleRoutesData(uid, nazione, regione, dataSnapshot)
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
                     listener?.onError(databaseError)
                 }
             })
-        }.start()
     }
 
-    private fun handleRoutesData(uid: String, nazione: String, dataSnapshot: DataSnapshot) {
+    private fun handleRoutesData(
+        uid: String,
+        nazione: String,
+        regione: String,
+        dataSnapshot: DataSnapshot
+    ) {
 
-        Log.d(TAG,"cerco i viaggi")
+        Log.d(TAG, "cerco i viaggi")
 
         val list: ArrayList<BigDecimal> = ArrayList()
 
@@ -82,14 +179,14 @@ object HomeHelper {
 
         listChart = list
 
-        getRankingLocal(uid,nazione)
+        getRankingLocal(uid, nazione, regione)
     }
 
-    private fun getRankingLocal(uid: String, nazione: String) {
+    private fun getRankingLocal(uid: String, nazione: String, regione: String) {
 
-        Log.d(TAG,"cerco la posizione locale")
+        Log.d(TAG, "cerco la posizione locale")
 
-        FirebaseDatabase.getInstance().getReference("ranking/$nazione")
+        FirebaseDatabase.getInstance().getReference("ranking/$regione")
             .orderByChild("punteggioMedio")
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -98,19 +195,22 @@ object HomeHelper {
 
                     for (snap in snapshot.children) {
                         val punt = snap.child("punteggioMedio").getValue(Int::class.java)
-                        list.add(
-                            HomeFragment.UserScore(
-                                snap.key.toString(),
-                                snap.child("name").getValue(String::class.java).toString(),
-                                punt!!
+                        val picURL = snap.child("picurl").getValue(String::class.java)
+                        if (punt != null && picURL != null)
+                            list.add(
+                                HomeFragment.UserScore(
+                                    picURL,
+                                    snap.key.toString(),
+                                    snap.child("name").getValue(String::class.java).toString(),
+                                    punt
+                                )
                             )
-                        )
                     }
 
                     list.sortByDescending { it.score }
 
                     positionLocal = handleRankDataLocal(list, uid)
-                    getRankingGlobal(uid)
+                    getRankingGlobal(uid, nazione)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -119,11 +219,11 @@ object HomeHelper {
             })
     }
 
-    private fun getRankingGlobal(uid: String) {
+    private fun getRankingGlobal(uid: String, nazione: String) {
 
-        Log.d(TAG,"cerco la posizione globale")
+        Log.d(TAG, "cerco la posizione globale")
 
-        FirebaseDatabase.getInstance().getReference("ranking/global")
+        FirebaseDatabase.getInstance().getReference("ranking/$nazione")
             .orderByChild("punteggioMedio")
             .addListenerForSingleValueEvent(object : ValueEventListener {
 
@@ -181,8 +281,20 @@ object HomeHelper {
     }
 
     fun removeListener() {
+
         if (listener != null)
             listener = null
+
+        if (listenerUpdate != null)
+            listener = null
+    }
+
+    fun makeHomeUpdate() {
+        listenerUpdate?.onNeedToUpdate()
+    }
+
+    fun setupUpdateListner(listener: HomeHelperUpdate) {
+        this.listenerUpdate = listener
     }
 
 }

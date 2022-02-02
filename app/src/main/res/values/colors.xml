@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-   <color name="pink">@color/seed</color>
-   <color name="green">#A6CDC7</color>
-   <color name="seed">#FFC9C6</color>
-   <color name="error">#BA1B1B</color>
-   <color name="black">#FF000000</color>
-   <color name="white">#FFFFFF</color>
-   <color name="banana_yellow">#FFDD2F</color>
-   <color name="background_light">#FFFBFE</color>
-   <color name="background_dark">#26252A</color>
-   <color name="light_gray">#DDDDDD</color>
-   <color name="strange_orange">#A6531F</color>
+    <color name="pink">@color/seed</color>
+    <color name="green">#A6CDC7</color>
+    <color name="seed">#FFC9C6</color>
+    <color name="error">#BA1B1B</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="banana_yellow">#FFDD2F</color>
+    <color name="background_light">#FFFBFE</color>
+    <color name="background_dark">#26252A</color>
+    <color name="light_gray">#DDDDDD</color>
+    <color name="strange_orange">#A6531F</color>
 
-   <color name="bs_text_light">#49454F</color>
-   <color name="bs_text_dark">#F1F0F0</color>
+    <color name="bs_text_light">#49454F</color>
+    <color name="bs_text_dark">#F1F0F0</color>
 
-   <color name="pillow_light">#D1D1D1</color>
-   <color name="pillow_dark">#35343A</color>
+    <color name="pillow_light">#D1D1D1</color>
+    <color name="pillow_dark">#35343A</color>
+
+
+    <color name="really_bad">#98191A</color>
+    <color name="bad">#98511A</color>
+    <color name="good">#98771A</color>
+    <color name="really_good">#33A020</color>
 
 </resources>

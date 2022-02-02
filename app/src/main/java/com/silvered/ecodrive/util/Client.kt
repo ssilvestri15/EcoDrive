@@ -1,5 +1,8 @@
 package com.silvered.ecodrive.util
 
+import android.net.nsd.NsdManager
+import android.net.nsd.NsdServiceInfo
+import android.util.Log
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.OutputStream
@@ -18,14 +21,19 @@ data class Client(val ip: String, val port: Int) {
     private lateinit var socketOutput: OutputStream
     private lateinit var socketInput: BufferedReader
 
+    private val TAG = "Client"
+
     private var listener: ClientCallback? = null
 
-    fun connect() {
+    fun connect(listener: ClientCallback) {
 
         Thread {
 
             try {
-                socket = Socket(ip,port)
+
+                this.listener = listener
+
+                socket = Socket(ip, port)
                 socketOutput = socket.getOutputStream()
                 socketInput = BufferedReader(InputStreamReader(socket.getInputStream()))
 
@@ -40,19 +48,20 @@ data class Client(val ip: String, val port: Int) {
 
                         while (true) {
                             charsRead = socketInput.read(buffer)
-                            message = String(buffer).substring(0,charsRead)
-                            if (message != null && listener != null){
-                                listener?.onMessage(message)
+                            message = String(buffer).substring(0, charsRead)
+                            if (message != null && listener != null) {
+                                listener.onMessage(message)
                             }
                             message = null
                         }
                     } catch (e: Exception) {
+                        Log.d(TAG,"Il client ")
                         e.message?.let { listener?.onDisconnect(socket, it) }
                     }
 
                 }.start()
 
-                listener?.onConnect(socket)
+                listener.onConnect(socket)
 
             } catch (e: Exception) {
                 e.message?.let { listener?.onConnectError(null, it) }
@@ -64,10 +73,13 @@ data class Client(val ip: String, val port: Int) {
 
     fun disconnect() {
         try {
-            if (this::socket.isInitialized && socket.isConnected)
+            if (this::socket.isInitialized && socket.isConnected) {
                 socket.close()
+            }
         } catch (e: Exception) {
             e.message?.let { listener?.onDisconnect(socket, it) }
+        }finally {
+            removeClientCallBack()
         }
     }
 
@@ -79,8 +91,10 @@ data class Client(val ip: String, val port: Int) {
         }
     }
 
-    fun setClientCallBack(listener: ClientCallback) {
-        this.listener = listener
+    fun removeClientCallBack() {
+        this.listener = null
     }
+
+
 
 }
