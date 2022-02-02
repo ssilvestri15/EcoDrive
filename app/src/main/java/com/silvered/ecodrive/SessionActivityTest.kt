@@ -9,6 +9,7 @@ import android.graphics.PorterDuffColorFilter
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.provider.Settings
 import android.util.Log
 import android.view.View
@@ -31,6 +32,7 @@ import com.silvered.ecodrive.databinding.ActivitySessionTestBinding
 import com.silvered.ecodrive.util.Client
 import com.silvered.ecodrive.util.ErrorHelper
 import com.silvered.ecodrive.util.SessionHelper
+import kotlinx.parcelize.Parcelize
 import java.net.Socket
 import java.time.Duration
 import java.time.Instant
@@ -38,6 +40,9 @@ import kotlin.math.abs
 
 
 class SessionActivityTest : AppCompatActivity() {
+
+    @Parcelize
+    private class ServerMessage(val speed: String, val limit: String) : Parcelable
 
     private val TAG = "SessionActivity"
 
@@ -165,7 +170,12 @@ class SessionActivityTest : AppCompatActivity() {
         client.connect(object : Client.ClientCallback {
 
             override fun onMessage(message: String) {
-                sessionHelper.updateData(message)
+                val json = message.split("}")[0] + "}"
+                if (json.contains("{") && json.contains("}")) {
+                    val serverMessage = Gson().fromJson(json, ServerMessage::class.java)
+                    updateLimit(serverMessage.limit)
+                    sessionHelper.updateData(serverMessage.speed)
+                }
             }
 
             override fun onConnect(socket: Socket) {
@@ -181,6 +191,22 @@ class SessionActivityTest : AppCompatActivity() {
             }
 
         })
+
+    }
+
+    private fun updateLimit(limit: String) {
+
+        if (limit == "" && limit.isEmpty())
+            return
+
+        if (isCarlaActived.not())
+            return
+
+        val myLimit = limit.split(".")[0]
+
+        runOnUiThread {
+            binding.limitTv.text = myLimit
+        }
 
     }
 
@@ -350,6 +376,10 @@ class SessionActivityTest : AppCompatActivity() {
             binding.layoutConnecting.visibility = View.GONE
             if (fakeUI.not()) {
                 binding.layoutConnected.visibility = View.VISIBLE
+
+                if (isCarlaActived)
+                    binding.limit.visibility = View.VISIBLE
+
             } else {
                 binding.fakeUI.visibility = View.VISIBLE
                 val colorPrimary = MaterialColors.getColor(
