@@ -203,6 +203,8 @@ class SessionHelper {
             (secondiAndamentoCostanteTot - secondiAndamentoCostanteTotPrec) - daLevare //L'utente guadagna punti in base ai secondi che guida in maniera costante
         secondiAndamentoCostanteTotPrec = secondiAndamentoCostanteTot
         punteggio += res / 100 // effettuo la divisione /100 così per non far uscire valori troppo elevati
+        if (punteggio < 0)
+            punteggio = 0f
 
     }
 
