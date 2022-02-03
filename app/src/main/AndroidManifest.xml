@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
-        android:name=".StartClass"
+        android:name=".activity.StartClass"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -20,29 +20,31 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".RoutesActivityCarla"
-            android:exported="false" />
-        <activity
-            android:name=".SettingsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RoutesActivity"
+            android:name=".activity.RoutesActivityCarla"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".WinnerActivity"
+            android:name=".activity.SettingsActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CountryActivity"
+            android:name=".activity.RoutesActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EndSessionActivity"
+            android:name=".activity.WinnerActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.CountryActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.EndSessionActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LoginActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -52,11 +54,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SessionActivityTest"
+            android:name=".activity.SessionActivityTest"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 

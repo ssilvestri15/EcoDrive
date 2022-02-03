@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WinnerActivity">
+    tools:context=".activity.WinnerActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guide1"

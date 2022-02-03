@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1935" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable-v24/tab_background.xml" value="0.2295" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/baseline_arrow_back_black_24dp.xml" value="0.2295" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/bottom_shet_background.xml" value="0.2545" />
+        <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/car_eco_fill_2.xml" value="0.1935" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/chart_fill.xml" value="0.1935" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/chart_gradient.xml" value="0.2295" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/chart_icon.xml" value="0.246" />
@@ -13,11 +15,13 @@
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/cp.xml" value="0.2295" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/custom_thumb_switch.xml" value="0.3075" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/custom_track_switch.xml" value="0.15" />
+        <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/eco_car.xml" value="0.1935" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/gradient_circle.xml" value="0.1935" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/gradient_circle_dark.xml" value="0.1935" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/gradient_square.xml" value="0.1935" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/gradient_square_rounded.xml" value="0.1935" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/home_icon.xml" value="0.246" />
+        <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1935" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/list_item.xml" value="0.2295" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/m3_selection_control_ripple.xml" value="0.3075" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/m3_selection_control_ripple_color_selector.xml" value="0.3075" />
@@ -33,7 +37,7 @@
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/font/poppins.xml" value="0.38666666666666666" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/activity_country.xml" value="0.358695652173913" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/activity_end_session.xml" value="0.22" />
-        <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/activity_login.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/activity_login.xml" value="0.16" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/activity_routes.xml" value="0.2" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/activity_routes_carla.xml" value="0.29743589743589743" />
@@ -55,6 +59,8 @@
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/resoconto_layout.xml" value="0.29743589743589743" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/routes_item.xml" value="0.33" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.29743589743589743" />
+        <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1935" />
+        <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1935" />
       </map>
     </option>
   </component>
