@@ -16,6 +16,7 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.auth.FirebaseAuth
@@ -130,6 +131,11 @@ class HomeFragment : Fragment() {
             showView(binding.pointsCardView)
             showView(binding.barChartHome)
             showView(binding.levelCv)
+
+            binding.levelCv.setOnClickListener {
+                showLevelsBottomSheet()
+            }
+
         } else {
             showView(binding.noDataLayout)
         }
@@ -140,6 +146,12 @@ class HomeFragment : Fragment() {
             startActivity(Intent(activity, SessionActivityTest::class.java))
         }
 
+    }
+
+    private fun showLevelsBottomSheet() {
+        val bottomSheetDialog = BottomSheetDialog(myContext, com.silvered.ecodrive.R.style.BottomSheetDialogTheme)
+        bottomSheetDialog.setContentView(com.silvered.ecodrive.R.layout.levels_items)
+        bottomSheetDialog.show()
     }
 
     private fun setList(): ArrayList<CustomObjects.GridItem> {
