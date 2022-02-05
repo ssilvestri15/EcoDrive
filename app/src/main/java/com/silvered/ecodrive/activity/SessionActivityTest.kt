@@ -6,14 +6,15 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
 import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -34,7 +35,6 @@ import com.silvered.ecodrive.util.CustomObjects
 import com.silvered.ecodrive.util.helpers.ErrorHelper
 import com.silvered.ecodrive.util.helpers.NsdHelper
 import com.silvered.ecodrive.util.helpers.SessionHelper
-import kotlinx.parcelize.Parcelize
 import java.net.Socket
 import java.time.Duration
 import java.time.Instant
@@ -64,11 +64,12 @@ class SessionActivityTest : AppCompatActivity() {
     private lateinit var instantStart: Instant
     private var isCarlaActived = false
 
+    private var isAudioEnabled = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySessionTestBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         sessionHelper = SessionHelper()
 
         isCarlaActived = getSharedPreferences("info", MODE_PRIVATE).getBoolean("carla", false)
@@ -85,8 +86,6 @@ class SessionActivityTest : AppCompatActivity() {
             isUIReady = true
             checkLocationPermission()
         }
-
-        Log.d(TAG, "CARLA: $isCarlaActived")
 
         getColors()
     }
@@ -109,7 +108,6 @@ class SessionActivityTest : AppCompatActivity() {
         sessionHelper.setListener(object : SessionHelper.SessionHelperCallback {
 
             override fun onSpeedUpdated(currentSpeed: String) {
-                Log.d("AcT", "CS: $currentSpeed")
                 updateSpeed(currentSpeed)
             }
 
@@ -158,6 +156,14 @@ class SessionActivityTest : AppCompatActivity() {
 
         binding.endSessionFake.setOnClickListener {
             onBackPressed()
+        }
+
+        binding.audioFab.setOnClickListener {
+            isAudioEnabled = isAudioEnabled.not()
+            if (isAudioEnabled)
+                binding.audioFab.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.baseline_volume_off_black_24dp))
+            else
+                binding.audioFab.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.baseline_volume_up_black_24dp))
         }
     }
 
@@ -233,16 +239,30 @@ class SessionActivityTest : AppCompatActivity() {
 
             runOnUiThread {
 
+
                 binding.punteggioTv.text = points.toString()
 
-                binding.cvSdgNow.setCardBackgroundColor(getColorSDG(stileDiGuidaNow))
-                binding.iconCvSdgNow.setCardBackgroundColor(getColorSDG(stileDiGuidaNow))
+                val sdgNowColor = getColorSDG(stileDiGuidaNow)
+                binding.cvSdgNow.setCardBackgroundColor(sdgNowColor)
+                binding.iconCvSdgNow.setCardBackgroundColor(sdgNowColor)
+                val contrastColorSDGNOW = getContrastColor(sdgNowColor)
+                binding.sdgNowTv.setTextColor(contrastColorSDGNOW)
+                binding.sdgNowIcon.setColorFilter(contrastColorSDGNOW)
+                reproduceSoundSDG(stileDiGuidaNow)
 
-                binding.sdgCv.setCardBackgroundColor(getColorSDG(stileDiGuida))
-                binding.iconSdgCv.setCardBackgroundColor(getColorSDG(stileDiGuida))
+                val sdgTotColor = getColorSDG(stileDiGuida)
+                binding.sdgCv.setCardBackgroundColor(sdgTotColor)
+                binding.iconSdgCv.setCardBackgroundColor(sdgTotColor)
+                val contrastColorSDGTOT = getContrastColor(sdgTotColor)
+                binding.sdgTotTv.setTextColor(contrastColorSDGTOT)
+                binding.sdgTotIcon.setColorFilter(contrastColorSDGTOT)
 
-                binding.cvDiff.setCardBackgroundColor(getColorDiff(diffspeed))
-                binding.iconCvDiff.setCardBackgroundColor(getColorDiff(diffspeed))
+                val accBruscaColor = getColorDiff(diffspeed)
+                binding.cvDiff.setCardBackgroundColor(accBruscaColor)
+                binding.iconCvDiff.setCardBackgroundColor(accBruscaColor)
+                val contrastColorACCBRUSCA = getContrastColor(accBruscaColor)
+                binding.accBruscaTv.setTextColor(contrastColorACCBRUSCA)
+                binding.accBruscaIcon.setColorFilter(contrastColorACCBRUSCA)
 
             }
         } else {
@@ -283,9 +303,20 @@ class SessionActivityTest : AppCompatActivity() {
 
         runOnUiThread {
             if (fakeUI.not()) {
+
+
                 binding.speedTv.text = "$currentSpeed km/h"
-                binding.cvVelNow.setCardBackgroundColor(getColorSpeed(currentSpeed.toInt()))
-                binding.iconCvVelNow.setCardBackgroundColor(getColorSpeed(currentSpeed.toInt()))
+
+                val colorSpeed = getColorSpeed(currentSpeed.toInt())
+
+                binding.cvVelNow.setCardBackgroundColor(colorSpeed)
+                binding.iconCvVelNow.setCardBackgroundColor(colorSpeed)
+
+                val contrastColorSpeed = getContrastColor(colorSpeed)
+                binding.speedTv.setTextColor(contrastColorSpeed)
+                binding.speedIcon.setColorFilter(contrastColorSpeed)
+
+
             } else {
                 binding.speedFakeTv.text = currentSpeed
                 val nowInstant = Instant.now()
@@ -305,7 +336,7 @@ class SessionActivityTest : AppCompatActivity() {
 
         val temp = 6 - absDiff
         val hue = (temp * 120) / 6 //1 = green
-        return Color.HSVToColor(50, floatArrayOf(hue.toFloat(), 1f, 1f))
+        return Color.HSVToColor(200, floatArrayOf(hue.toFloat(), 1f, 1f))
     }
 
     private fun getColorSDG(sdg: Float): Int {
@@ -317,7 +348,26 @@ class SessionActivityTest : AppCompatActivity() {
             return colorReallyGood
 
         val hue = (sdg * 120) //1 = green
-        return Color.HSVToColor(50, floatArrayOf(hue, 1f, 1f))
+        return Color.HSVToColor(200, floatArrayOf(hue, 1f, 1f))
+    }
+
+    private fun reproduceSoundSDG(sdg: Float) {
+
+        if (isAudioEnabled.not())
+            return
+
+        var mediaPlayer = MediaPlayer.create(this, R.raw.hero_simple_celebration_01)
+
+        if (sdg in 0f..0.5f)
+            mediaPlayer = MediaPlayer.create(this, R.raw.alert_error_01)
+
+
+        mediaPlayer?.setOnCompletionListener {
+            it.release()
+        }
+
+        mediaPlayer?.start()
+
     }
 
     private fun getColorSpeed(speed: Int): Int {
@@ -337,7 +387,15 @@ class SessionActivityTest : AppCompatActivity() {
         val temp = 20 - ((speed - 40) % 20)
         val hue = (temp * 120) / 20 //20 = green
 
-        return Color.HSVToColor(50, floatArrayOf(hue.toFloat(), 1f, 1f))
+        return Color.HSVToColor(200, floatArrayOf(hue.toFloat(), 1f, 1f))
+    }
+
+    @ColorInt
+    fun getContrastColor(@ColorInt color: Int): Int {
+        // Counting the perceptive luminance - human eye favors green color...
+        val a =
+            1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255
+        return if (a < 0.5) Color.BLACK else Color.WHITE
     }
 
     private fun socketConnected() {

@@ -72,8 +72,6 @@ class SessionHelper {
 
     fun updateData(message: String) {
 
-        Log.d("AcT", "MESSAGE: $message")
-
         try {
 
             val temp = message.split(".")
@@ -84,41 +82,36 @@ class SessionHelper {
 
             updateVelMedia(currentSpeed)
 
-            if (counter >= 20) {
 
-                var diffspeed = 0
+            var diffspeed = 0
 
 
-                if (currentSpeed > previuspeed + 2 || currentSpeed < previuspeed - 2) {
+            if (currentSpeed > previuspeed + 2 || currentSpeed < previuspeed - 2) {
 
-                    if (previuspeed < 1f)
-                        previuspeed = 1f
+                if (previuspeed < 1f)
+                    previuspeed = 1f
 
-                    if (currentSpeed > 0f && previuspeed > 0f)
-                        diffspeed = (((currentSpeed - previuspeed) / previuspeed) * 100).toInt()
+                if (currentSpeed > 0f && previuspeed > 0f)
+                    diffspeed = (((currentSpeed - previuspeed) / previuspeed) * 100).toInt()
 
-                }
-
-                updatePunteggio(currentSpeed, diffspeed)
-
-                previuspeed = currentSpeed
-                counter = 0
-
-                listener?.onDataUpdated(
-                    getPesoSDG(stileDiGuidaNow, false),
-                    getPeso(velM),
-                    diffspeed,
-                    punteggio.toInt(),
-                    kmpercosi
-                )
-
-            } else {
-                counter++
             }
+
+            updatePunteggio(currentSpeed, diffspeed)
+
+            previuspeed = currentSpeed
+            counter = 0
+
+            listener?.onDataUpdated(
+                getPesoSDG(stileDiGuidaNow, false),
+                getPeso(velM),
+                diffspeed,
+                punteggio.toInt(),
+                kmpercosi
+            )
 
 
         } catch (e: Exception) {
-            Log.d("MAS", "Error: ${e.message}")
+            Log.e("TRYCATCH ERROR", "Error: ${e.message}")
         }
 
     }
@@ -352,22 +345,18 @@ class SessionHelper {
 
     fun setupGPS(activity: Activity) {
 
-        Log.d("AcT", "STARTING GPS")
-
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
         locationRequest = LocationRequest.create().apply {
 
-            interval = TimeUnit.SECONDS.toMillis(1)
-            fastestInterval = TimeUnit.SECONDS.toMillis(1)
-            maxWaitTime = TimeUnit.MINUTES.toMillis(1)
+            interval = 60
+            fastestInterval = 30
+            maxWaitTime = 45
 
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 super.onLocationResult(locationResult)
-                Log.d("SH", "NEW LOCATION: ${locationResult.lastLocation}")
                 val latlng = LatLng(
                     locationResult.lastLocation.latitude,
                     locationResult.lastLocation.longitude
@@ -407,7 +396,6 @@ class SessionHelper {
         if (this::polylineOption.isInitialized.not())
             polylineOption = PolylineOptions()
 
-        Log.d("POLY","Poly added")
         polylineOption.add(latLng)
     }
 

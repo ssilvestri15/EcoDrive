@@ -67,9 +67,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:fontFamily="@font/poppins" />
 
-
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
@@ -114,6 +111,18 @@
             app:lottie_speed="0.5"
             android:layout_marginTop="40dp"
             android:visibility="gone"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/audio_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_volume_off_black_24dp"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="@+id/limit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/limit"
+            app:layout_constraintTop_toTopOf="@+id/limit"
+            app:layout_constraintVertical_bias="0"/>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/limit"
@@ -183,7 +192,7 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="50dp"
                 app:strokeWidth="0dp"
-                app:cardElevation="8dp"
+                app:cardElevation="2dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp">
 
@@ -202,6 +211,7 @@
                         app:strokeWidth="0dp">
 
                         <ImageView
+                            android:id="@+id/speed_icon"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_margin="10dp"
@@ -230,7 +240,7 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="50dp"
                 app:strokeWidth="0dp"
-                app:cardElevation="8dp"
+                app:cardElevation="2dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp">
@@ -250,6 +260,7 @@
                         app:strokeWidth="0dp">
 
                         <ImageView
+                            android:id="@+id/acc_brusca_icon"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_margin="10dp"
@@ -259,6 +270,7 @@
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/acc_brusca_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Accellerazione brusca"
@@ -277,7 +289,7 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="50dp"
                 app:strokeWidth="0dp"
-                app:cardElevation="8dp"
+                app:cardElevation="2dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp">
@@ -297,6 +309,7 @@
                         app:strokeWidth="0dp">
 
                         <ImageView
+                            android:id="@+id/sdgNow_icon"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_margin="10dp"
@@ -306,9 +319,10 @@
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/sdg_now_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Stile di guida (in questo momento)"
+                        android:text="Stile di guida corrente"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -324,7 +338,7 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="50dp"
                 app:strokeWidth="0dp"
-                app:cardElevation="8dp"
+                app:cardElevation="2dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp">
@@ -344,8 +358,9 @@
                         app:strokeWidth="0dp">
 
                         <ImageView
+                            android:id="@+id/sdgTot_icon"
                             android:layout_width="50dp"
-                            android:layout_height="60dp"
+                            android:layout_height="50dp"
                             android:layout_margin="10dp"
                             android:src="@drawable/sdgtot"
                             app:tint="?attr/colorPrimary"/>
@@ -353,9 +368,10 @@
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/sdg_tot_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Stile di guida (da inizio sessione)"
+                        android:text="Stile di guida complessivo"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -392,7 +408,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="8dp"
+                app:cardElevation="2dp"
                 app:cardUseCompatPadding="true"
                 app:strokeWidth="0dp">
 
@@ -436,7 +452,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="8dp"
+                app:cardElevation="2dp"
                 app:cardUseCompatPadding="true"
                 app:strokeWidth="0dp">
 
@@ -481,7 +497,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="8dp"
+                app:cardElevation="2dp"
                 app:cardUseCompatPadding="true"
                 app:strokeWidth="0dp">
 
