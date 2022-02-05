@@ -161,9 +161,9 @@ class SessionActivityTest : AppCompatActivity() {
         binding.audioFab.setOnClickListener {
             isAudioEnabled = isAudioEnabled.not()
             if (isAudioEnabled)
-                binding.audioFab.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.baseline_volume_off_black_24dp))
-            else
                 binding.audioFab.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.baseline_volume_up_black_24dp))
+            else
+                binding.audioFab.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.baseline_volume_off_black_24dp))
         }
     }
 
