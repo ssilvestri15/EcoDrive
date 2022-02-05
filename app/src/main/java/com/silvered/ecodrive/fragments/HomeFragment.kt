@@ -124,15 +124,15 @@ class HomeFragment : Fragment() {
 
         if (HomeHelper.listChart!!.isNotEmpty()) {
             binding.gridViewHome.adapter = GridHomeAdapter(setList())
-            binding.levelName.text = HomeHelper.levelName
+            binding.levelBtn.text = HomeHelper.levelName
             setupBarChart(myContext)
             hideView(binding.pbPoints)
             showView(binding.aboveLayout)
             showView(binding.pointsCardView)
             showView(binding.barChartHome)
-            showView(binding.levelCv)
+            showView(binding.levelBtn)
 
-            binding.levelCv.setOnClickListener {
+            binding.levelBtn.setOnClickListener {
                 showLevelsBottomSheet()
             }
 
@@ -265,7 +265,7 @@ class HomeFragment : Fragment() {
 
     private fun resetView() {
 
-        hideView(binding.levelCv)
+        hideView(binding.levelBtn)
         hideView(binding.syncingLayout)
         hideView(binding.noDataLayout)
         hideView(binding.pointsCardView)

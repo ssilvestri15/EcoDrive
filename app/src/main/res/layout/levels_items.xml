@@ -36,13 +36,15 @@
                 android:text="I livelli del gioco"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:textColor="?colorOnSurface"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Esistono diversi tipi di livelli che puoi raggiungere!"/>
+                android:text="Esistono diversi tipi di livelli che puoi raggiungere!"
+                android:textColor="?colorOnSurface"/>
 
 
             <com.google.android.material.textview.MaterialTextView
@@ -50,13 +52,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:text="• Aereo (Livello 1)\n• Nave (Livello 2)\n• Trattore (Livello 3)\n• Macchina (Livello 4)\n• Motorino (Livello 5)\n• Bicicletta (Livello 6)"/>
+                android:text="1. Aereo\n2. Nave\n3. Trattore\n4. Macchina\n5. Motorino\n6. Bicicletta"
+                android:textColor="?colorOnSurface"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Non ti diremo a quale punteggio il cambio di livello avverrà, continua a giocare per scoprirlo!" />
+                android:text="Non ti diremo a quale punteggio il cambio di livello avverrà, continua a giocare per scoprirlo!"
+                android:textColor="?colorOnSurface"/>
 
         </LinearLayout>
 

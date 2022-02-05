@@ -187,31 +187,18 @@
 
     </LinearLayout>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/level_cv"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/level_btn"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:cardBackgroundColor="?attr/colorPrimary"
-        app:cardCornerRadius="20dp"
+        android:layout_height="wrap_content"
+        android:text="livello"
+        app:icon="@drawable/outline_info_black_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/name_textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/name_textView"
         app:layout_constraintTop_toTopOf="@+id/name_textView"
         app:layout_constraintHorizontal_bias="1"
-        android:layout_marginEnd="35dp"
-        app:strokeWidth="0dp">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/levelName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="livello"
-            android:textColor="?attr/colorOnPrimary"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_gravity="center"/>
-
-    </com.google.android.material.card.MaterialCardView>
+        android:layout_marginEnd="35dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/start_session"
