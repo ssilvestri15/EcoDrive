@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:text="1. Aereo\n2. Nave\n3. Trattore\n4. Macchina\n5. Motorino\n6. Bicicletta"
+                android:text="1. Principiante\n2. Amatore\n3. Intermedio\n4. Avanzato\n5. Pro\n6. Campione"
                 android:textColor="?colorOnSurface"/>
 
             <com.google.android.material.textview.MaterialTextView

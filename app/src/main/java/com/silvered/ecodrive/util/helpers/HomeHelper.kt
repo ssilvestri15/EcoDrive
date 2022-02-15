@@ -122,12 +122,12 @@ object HomeHelper {
         database.getReference("users/$uid").child("level").setValue(level)
 
         when (level) {
-            1 -> levelName = "Aereo"
-            2 -> levelName = "Nave"
-            3 -> levelName = "Trattore"
-            4 -> levelName = "Macchina"
-            5 -> levelName = "Motorino"
-            6 -> levelName = "Bicicletta"
+            1 -> levelName = "Principiante"
+            2 -> levelName = "Amatore"
+            3 -> levelName = "Intermedio"
+            4 -> levelName = "Avanzato"
+            5 -> levelName = "Pro"
+            6 -> levelName = "Campione"
         }
 
         val recordDB = dataSnapshot.child("record").getValue(Int::class.java)
