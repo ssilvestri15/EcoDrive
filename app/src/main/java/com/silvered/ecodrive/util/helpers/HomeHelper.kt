@@ -27,6 +27,7 @@ object HomeHelper {
     var positionLocal: Long? = null
     var positionGlobal: Long? = null
     var punteggioMedio: Int? = null
+    var stileDiGuida: Float? = null
     var numViaggi: Int? = null
     var levelName: String = ""
     var picUrl: String? = null
@@ -157,18 +158,42 @@ object HomeHelper {
                         listChart = ArrayList()
                         positionLocal = -1
                         positionGlobal = -1
+                        stileDiGuida = 0f
                         needToUpdate = false
                         listener?.onDataReady()
                         return
                     }
 
                     handleRoutesData(uid, nazione, regione, dataSnapshot)
+                    handleStileDiGuida(dataSnapshot)
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
                     listener?.onError(databaseError)
                 }
             })
+    }
+
+    private fun handleStileDiGuida(dataSnapshot: DataSnapshot) {
+
+        var punteggio = 0f
+        var counter = 0
+
+        for (child in dataSnapshot.children) {
+            val sdg = child.child("pesoStileDiGuida").getValue(Long::class.java)
+            if (sdg != null) {
+                punteggio += sdg
+                counter++
+            }
+        }
+
+        if (punteggio == 0f && counter == 0) {
+            stileDiGuida = 0f
+            return
+        }
+
+        stileDiGuida = (punteggio/counter)
+
     }
 
     private fun handleRoutesData(

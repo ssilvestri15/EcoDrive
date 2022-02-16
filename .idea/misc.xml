@@ -12,6 +12,9 @@
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/chart_gradient.xml" value="0.2295" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/chart_icon.xml" value="0.246" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/circle.xml" value="0.3075" />
+        <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/circle_indicators.xml" value="0.1925" />
+        <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/circle_selected.xml" value="0.1935" />
+        <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/circle_unselected.xml" value="0.1935" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/cp.xml" value="0.2295" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/custom_thumb_switch.xml" value="0.3075" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/drawable/custom_track_switch.xml" value="0.15" />
@@ -49,9 +52,11 @@
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/fragment_analytics.xml" value="0.25" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/fragment_blank.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/fragment_home.xml" value="0.29973118279569894" />
+        <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/fragment_home_card.xml" value="0.29743589743589743" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/fragment_home_test.xml" value="0.25" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/fragment_profile.xml" value="0.33" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/fragment_ranking.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/home_card.xml" value="0.29743589743589743" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/item_grid_home.xml" value="0.5" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/levels_items.xml" value="0.33" />
         <entry key="..\:/Users/silve/AndroidStudioProjects/EcoDrive/app/src/main/res/layout/list_item.xml" value="0.18541666666666667" />

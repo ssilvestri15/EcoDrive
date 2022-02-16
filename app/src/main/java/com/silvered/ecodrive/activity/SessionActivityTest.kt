@@ -109,6 +109,7 @@ class SessionActivityTest : AppCompatActivity() {
 
             override fun onSpeedUpdated(currentSpeed: String) {
                 updateSpeed(currentSpeed)
+                Log.d("SSSS","AGGIORNO")
             }
 
             override fun onDataUpdated(
@@ -172,16 +173,23 @@ class SessionActivityTest : AppCompatActivity() {
         changeAnimation("satellite.json")
 
         client = Client(ip, 2005)
+        var count = 0
         client.connect(object : Client.ClientCallback {
 
             override fun onMessage(message: String) {
-                val json = message.split("}")[0] + "}"
-                if (json.contains("{") && json.contains("}")) {
+                var json = message
+
+                if (message.contains("}{"))
+                    json = message.split("}{")[0] + "}"
+
+                if (json.contains("{") && json.contains("}") && json.contains("}{").not() && count == 15) {
                     val serverMessage =
                         Gson().fromJson(json, CustomObjects.ServerMessage::class.java)
                     updateLimit(serverMessage.limit)
                     sessionHelper.updateData(serverMessage.speed)
+                    count = 0
                 }
+                count++
             }
 
             override fun onConnect(socket: Socket) {
@@ -248,7 +256,7 @@ class SessionActivityTest : AppCompatActivity() {
                 val contrastColorSDGNOW = getContrastColor(sdgNowColor)
                 binding.sdgNowTv.setTextColor(contrastColorSDGNOW)
                 binding.sdgNowIcon.setColorFilter(contrastColorSDGNOW)
-                reproduceSoundSDG(stileDiGuidaNow)
+                //reproduceSoundSDG(stileDiGuidaNow)
 
                 val sdgTotColor = getColorSDG(stileDiGuida)
                 binding.sdgCv.setCardBackgroundColor(sdgTotColor)

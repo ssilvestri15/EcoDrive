@@ -12,12 +12,16 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -123,13 +127,23 @@ class HomeFragment : Fragment() {
         resetView()
 
         if (HomeHelper.listChart!!.isNotEmpty()) {
+
             binding.gridViewHome.adapter = GridHomeAdapter(setList())
+            binding.gridViewHome.layoutManager = GridLayoutManager(context, 2)
             binding.levelBtn.text = HomeHelper.levelName
-            setupBarChart(myContext)
-            hideView(binding.pbPoints)
+
+            val viewPager2 = binding.pager
+            val adapter = HomeViewPagerAdapter(this)
+            viewPager2.adapter = adapter
+            viewPager2.isSaveEnabled = false
+            val tabLayout = binding.tabLayout
+            TabLayoutMediator(
+                tabLayout, viewPager2
+            ) { tab: TabLayout.Tab, position: Int ->
+                if (position == 0) tab.text = ""
+                if (position == 1) tab.text = ""
+            }.attach()
             showView(binding.aboveLayout)
-            showView(binding.pointsCardView)
-            showView(binding.barChartHome)
             showView(binding.levelBtn)
 
             binding.levelBtn.setOnClickListener {
@@ -149,7 +163,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun showLevelsBottomSheet() {
-        val bottomSheetDialog = BottomSheetDialog(myContext, com.silvered.ecodrive.R.style.BottomSheetDialogTheme)
+        val bottomSheetDialog =
+            BottomSheetDialog(myContext, com.silvered.ecodrive.R.style.BottomSheetDialogTheme)
         bottomSheetDialog.setContentView(com.silvered.ecodrive.R.layout.levels_items)
         bottomSheetDialog.show()
     }
@@ -208,69 +223,11 @@ class HomeFragment : Fragment() {
         textView.text = position
     }
 
-    private fun setupBarChart(context: Context) {
-
-        val entries: ArrayList<Entry> = ArrayList()
-        val barChartHome: LineChart = binding.barChartHome
-
-        binding.gridViewHome.layoutManager = GridLayoutManager(context, 2)
-
-        var i = 0f
-        for (num in HomeHelper.listChart!!) {
-            entries.add(Entry(i, num.toFloat()))
-            i++
-        }
-
-        val colorPrimary = MaterialColors.getColor(
-            context,
-            R.attr.colorPrimary,
-            ContextCompat.getColor(context, com.silvered.ecodrive.R.color.pink)
-        )
-        val colorOnPrimary = MaterialColors.getColor(
-            context,
-            com.google.android.material.R.attr.colorOnPrimary,
-            ContextCompat.getColor(context, com.silvered.ecodrive.R.color.green)
-        )
-
-        val barDataSet = LineDataSet(entries, "Punteggio")
-        barDataSet.valueTextColor = colorPrimary
-        //barDataSet.setGradientColor(colorAccent, colorPrimary)
-        //barDataSet.fillDrawable = ContextCompat.getDrawable(myContext, com.silvered.ecodrive.R.drawable.chart_fill)
-        barDataSet.lineWidth = 10f
-        barDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
-        barDataSet.color = colorPrimary
-        barDataSet.setDrawFilled(false)
-        barDataSet.setDrawValues(true)
-        barDataSet.setDrawCircles(true)
-        barDataSet.setCircleColor(colorPrimary)
-        barDataSet.circleHoleColor = colorOnPrimary
-        barDataSet.setDrawCircleHole(true)
-        barDataSet.circleRadius = 10f
-        barDataSet.circleHoleRadius = 5f
-        barChartHome.description.isEnabled = false
-        barChartHome.axisLeft.isEnabled = false
-        barChartHome.axisRight.isEnabled = false
-        barChartHome.xAxis.isEnabled = false
-        barChartHome.legend.isEnabled = false
-        barChartHome.setTouchEnabled(false)
-        barChartHome.setPinchZoom(false)
-        barChartHome.isDragEnabled = false
-        barChartHome.setScaleEnabled(true)
-
-        val data = LineData(barDataSet)
-        barChartHome.data = data
-        barChartHome.invalidate()
-
-    }
-
     private fun resetView() {
 
         hideView(binding.levelBtn)
         hideView(binding.syncingLayout)
         hideView(binding.noDataLayout)
-        hideView(binding.pointsCardView)
-        hideView(binding.barChartHome)
-        showView(binding.pbPoints)
         hideView(binding.aboveLayout)
         hideView(binding.startSession)
 
@@ -292,6 +249,20 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private class HomeViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+
+        override fun createFragment(position: Int): Fragment {
+            return if (position == 1) HomeCardFragment.newInstance(false) else HomeCardFragment.newInstance(
+                true
+            )
+        }
+
+        override fun getItemCount(): Int {
+            return 2
+        }
+
     }
 
 
