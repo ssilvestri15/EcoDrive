@@ -1,12 +1,15 @@
 package com.silvered.ecodrive.util
 
-import android.net.nsd.NsdManager
-import android.net.nsd.NsdServiceInfo
 import android.util.Log
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.OutputStream
+import java.lang.StringBuilder
 import java.net.Socket
+
 
 data class Client(val ip: String, val port: Int) {
 
@@ -40,22 +43,20 @@ data class Client(val ip: String, val port: Int) {
 
                 Thread {
 
-                    var charsRead = 0
-                    val buffer = CharArray(1024)
-                    var message: String? = null
-
                     try {
 
+                        val builder = StringBuilder()
                         while (true) {
-                            charsRead = socketInput.read(buffer)
-                            message = String(buffer).substring(0, charsRead)
-                            if (message != null && listener != null) {
-                                listener.onMessage(message)
+
+                            builder.append(socketInput.read().toChar())
+                            val message = builder.toString()
+                            if (isValidJson(message)) {
+                                builder.clear()
+                                listener?.onMessage(message)
                             }
-                            message = null
                         }
+
                     } catch (e: Exception) {
-                        Log.d(TAG,"Il client ")
                         e.message?.let { listener?.onDisconnect(socket, it) }
                     }
 
@@ -69,6 +70,17 @@ data class Client(val ip: String, val port: Int) {
 
         }.start()
 
+    }
+
+    private fun isValidJson(message: String): Boolean {
+
+        try {
+            JSONObject(message)
+        } catch (ex: Exception) {
+            return false
+        }
+
+        return true
     }
 
     fun disconnect() {

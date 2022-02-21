@@ -5,12 +5,10 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.maps.model.RoundCap
@@ -40,7 +38,6 @@ class RoutesActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val peso = intent.getFloatExtra(PESO_MEDIO, 0f)
         val km = intent.getFloatExtra(KM_PERCORSI, 0f)
         val vel = intent.getFloatExtra(VEL_MEDIA, 0f)
@@ -101,7 +98,6 @@ class RoutesActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-
 
         if (polylineOptions == null) {
             listener = object: RouteInterfaceCallback {

@@ -121,7 +121,7 @@ class SessionHelper {
         var temp = maxV - minV
 
         if (final)
-            maxVM - minVM
+            temp = maxVM - minVM
 
         if (temp == 0f)
             temp = 1f
@@ -192,12 +192,15 @@ class SessionHelper {
             (pesoKm * kmpercosi) //Il peso dei kilometrti percorsi dall'utente, se è < 1 allora viene penalizzato
         val daLevare =
             (stileDiGuida + (secondiFermo / 10) + pesoKmBassi + secondiSalita + kmpercosi) //Punti di penalizzazione
+
         val res =
             (secondiAndamentoCostanteTot - secondiAndamentoCostanteTotPrec) - daLevare //L'utente guadagna punti in base ai secondi che guida in maniera costante
-        secondiAndamentoCostanteTotPrec = secondiAndamentoCostanteTot
+
         punteggio += res / 100 // effettuo la divisione /100 così per non far uscire valori troppo elevati
+        Log.d("SSSSS","PUNTI OTTENUTI: ${(secondiAndamentoCostanteTot - secondiAndamentoCostanteTotPrec)}, DA LEVARE: ${daLevare} -> RES: $res, PUNTRGGIO: $punteggio")
         if (punteggio < 0)
             punteggio = 0f
+        secondiAndamentoCostanteTotPrec = secondiAndamentoCostanteTot
 
     }
 

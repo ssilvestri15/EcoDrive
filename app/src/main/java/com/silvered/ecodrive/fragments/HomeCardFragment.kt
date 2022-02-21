@@ -43,16 +43,10 @@ class HomeCardFragment : Fragment() {
         myContext = context as Context
         _binding = FragmentHomeCardBinding.inflate(inflater, container, false)
         return binding.root
-
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if (isEcoPoints == null)
-            isEcoPoints = true
 
         if (isEcoPoints!!)
             setupBarChart()
