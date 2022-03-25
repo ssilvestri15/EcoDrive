@@ -72,47 +72,51 @@ class SessionHelper {
 
     fun updateData(message: String) {
 
-        try {
+        Thread {
 
-            val temp = message.split(".")
-            val speed = temp[0] + '.' + temp[1]
+            try {
 
-            val currentSpeed = speed.toFloat()
-            listener?.onSpeedUpdated(String.format("%.0f", currentSpeed))
+                val temp = message.split(".")
+                val speed = temp[0] + '.' + temp[1]
 
-            updateVelMedia(currentSpeed)
+                val currentSpeed = speed.toFloat()
+                listener?.onSpeedUpdated(String.format("%.0f", currentSpeed))
+
+                updateVelMedia(currentSpeed)
 
 
-            var diffspeed = 0
+                var diffspeed = 0
 
 
-            if (currentSpeed > previuspeed + 2 || currentSpeed < previuspeed - 2) {
+                if (currentSpeed > previuspeed + 2 || currentSpeed < previuspeed - 2) {
 
-                if (previuspeed < 1f)
-                    previuspeed = 1f
+                    if (previuspeed < 1f)
+                        previuspeed = 1f
 
-                if (currentSpeed > 0f && previuspeed > 0f)
-                    diffspeed = (((currentSpeed - previuspeed) / previuspeed) * 100).toInt()
+                    if (currentSpeed > 0f && previuspeed > 0f)
+                        diffspeed = (((currentSpeed - previuspeed) / previuspeed) * 100).toInt()
 
+                }
+
+                updatePunteggio(currentSpeed, diffspeed)
+
+                previuspeed = currentSpeed
+                counter = 0
+
+                listener?.onDataUpdated(
+                    getPesoSDG(stileDiGuidaNow, false),
+                    getPeso(velM),
+                    diffspeed,
+                    punteggio.toInt(),
+                    kmpercosi
+                )
+
+
+            } catch (e: Exception) {
+                Log.e("TRYCATCH ERROR", "Error: ${e.message}")
             }
 
-            updatePunteggio(currentSpeed, diffspeed)
-
-            previuspeed = currentSpeed
-            counter = 0
-
-            listener?.onDataUpdated(
-                getPesoSDG(stileDiGuidaNow, false),
-                getPeso(velM),
-                diffspeed,
-                punteggio.toInt(),
-                kmpercosi
-            )
-
-
-        } catch (e: Exception) {
-            Log.e("TRYCATCH ERROR", "Error: ${e.message}")
-        }
+        }.start()
 
     }
 
@@ -197,7 +201,10 @@ class SessionHelper {
             (secondiAndamentoCostanteTot - secondiAndamentoCostanteTotPrec) - daLevare //L'utente guadagna punti in base ai secondi che guida in maniera costante
 
         punteggio += res / 100 // effettuo la divisione /100 così per non far uscire valori troppo elevati
-        Log.d("SSSSS","PUNTI OTTENUTI: ${(secondiAndamentoCostanteTot - secondiAndamentoCostanteTotPrec)}, DA LEVARE: ${daLevare} -> RES: $res, PUNTRGGIO: $punteggio")
+        Log.d(
+            "SSSSS",
+            "PUNTI OTTENUTI: ${(secondiAndamentoCostanteTot - secondiAndamentoCostanteTotPrec)}, DA LEVARE: ${daLevare} -> RES: $res, PUNTRGGIO: $punteggio"
+        )
         if (punteggio < 0)
             punteggio = 0f
         secondiAndamentoCostanteTotPrec = secondiAndamentoCostanteTot
