@@ -179,7 +179,7 @@ class EndSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                         database.child("ranking/$regione/${firebaseAuth.currentUser?.uid}/picurl")
                             .setValue(picURL)
 
-                        RankHelper.needToUpdate = true
+                        RankHelper.needToUpdate.value = true
                         HomeHelper.needToUpdate = true
                         ProfileHelper.needToUpdate = true
 

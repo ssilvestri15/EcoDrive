@@ -10,16 +10,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
-import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.silvered.ecodrive.R
 import com.silvered.ecodrive.activity.RoutesActivity
 import com.silvered.ecodrive.activity.SettingsActivity
 import com.silvered.ecodrive.adapters.RoutesAdapter
@@ -27,8 +19,6 @@ import com.silvered.ecodrive.databinding.FragmentProfileBinding
 import com.silvered.ecodrive.util.CustomObjects
 import com.silvered.ecodrive.util.helpers.HomeHelper
 import com.silvered.ecodrive.util.helpers.ProfileHelper
-import java.sql.Timestamp
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -92,76 +82,40 @@ class ProfileFragment : Fragment() {
 
         binding.routesRvProfile.layoutManager = LinearLayoutManager(myContext)
 
-        if (ProfileHelper.needToUpdate) {
-            updateData(user)
-            return
+        ProfileHelper.listRoutes.observe(viewLifecycleOwner) { list ->
+
+            if (ProfileHelper.needToUpdate) {
+                ProfileHelper.updateData(user)
+                return@observe
+            }
+
+            binding.progressProfile.visibility = View.GONE
+            if (list == null || list.isEmpty()) {
+                //Eccezione
+                showMissingUI()
+                return@observe
+            }
+
+            binding.routesRvProfile.adapter =
+                RoutesAdapter(
+                    isGamified,
+                    list,
+                    object : RouteAdapterCallback {
+                        override fun onAdapterItemClick(route: CustomObjects.Route) {
+                            val intent = Intent(myContext, RoutesActivity::class.java)
+                            intent.putExtra(RoutesActivity.DATA, route.date)
+                            intent.putExtra(RoutesActivity.KM_PERCORSI, route.km)
+                            intent.putExtra(RoutesActivity.VEL_MEDIA, route.vel)
+                            intent.putExtra(RoutesActivity.PESO_MEDIO, route.sdg)
+                            intent.putExtra(RoutesActivity.POLYLINEOPTIONS, route.poly)
+                            intent.putExtra(RoutesActivity.PUNTEGGIO, route.punti)
+                            startActivity(intent)
+                        }
+                    })
         }
-
-        if (ProfileHelper.listRoutes == null) {
-            //Eccezione
-            return
-        }
-
-        binding.routesRvProfile.adapter =
-            RoutesAdapter(isGamified,ProfileHelper.listRoutes!!, object : RouteAdapterCallback {
-                override fun onAdapterItemClick(route: CustomObjects.Route) {
-                    val intent = Intent(myContext, RoutesActivity::class.java)
-                    intent.putExtra(RoutesActivity.DATA, route.date)
-                    intent.putExtra(RoutesActivity.KM_PERCORSI, route.km)
-                    intent.putExtra(RoutesActivity.VEL_MEDIA, route.vel)
-                    intent.putExtra(RoutesActivity.PESO_MEDIO, route.sdg)
-                    intent.putExtra(RoutesActivity.POLYLINEOPTIONS, route.poly)
-                    intent.putExtra(RoutesActivity.PUNTEGGIO, route.punti)
-                    startActivity(intent)
-                }
-            })
-
 
     }
 
-    private fun updateData(user: FirebaseUser) {
-        FirebaseDatabase.getInstance().getReference("users/${user.uid}/routes")
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                    if (!dataSnapshot.exists()) {
-                        showMissingUI()
-                        return
-                    }
-
-                    val list: ArrayList<CustomObjects.Route> = ArrayList()
-
-                    for (snapshot in dataSnapshot.children) {
-
-                        val date: String =
-                            SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(
-                                Timestamp(snapshot.key!!.toLong())
-                            )
-                        val km = snapshot.child("kmPercorsi").getValue(Float::class.java)
-                        val poly = snapshot.child("poly").getValue(String::class.java)
-                        val sdg = snapshot.child("pesoStileDiGuida").getValue(Float::class.java)
-                        val punti = snapshot.child("punteggio").getValue(Float::class.java)
-                        val vel = snapshot.child("velMedia").getValue(Float::class.java)
-
-                        if (vel != null && km != null && sdg != null && punti != null)
-                            list.add(CustomObjects.Route(date, km, vel, sdg, poly, punti))
-
-                    }
-
-                    list.reverse()
-
-                    ProfileHelper.listRoutes = list
-                    ProfileHelper.needToUpdate = false
-
-                    setupUI()
-
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-
-                }
-            })
-    }
 
     private fun showMissingUI() {
     }
@@ -174,7 +128,7 @@ class ProfileFragment : Fragment() {
 
     private fun isGamified(context: Context): Boolean {
         val sharedPreferences = context.getSharedPreferences("info", AppCompatActivity.MODE_PRIVATE)
-        return sharedPreferences.getBoolean("isGamified",false)
+        return sharedPreferences.getBoolean("isGamified", false)
     }
 
 }

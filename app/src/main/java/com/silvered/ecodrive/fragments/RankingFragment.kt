@@ -60,13 +60,17 @@ class RankingFragment : Fragment() {
 
     private fun getData(view: View) {
 
-        if (RankHelper.listGlobal != null && RankHelper.listLocal != null && !RankHelper.needToUpdate) {
-            setupUI(view)
-            Log.d("SSS", "RIUTILIZZO")
-            return
+        RankHelper.needToUpdate.observe(viewLifecycleOwner) { needToUpdate ->
+
+            if (needToUpdate) {
+                getRanking(view)
+                return@observe
+            }
+
+            if (RankHelper.listGlobal != null && RankHelper.listLocal != null)
+                setupUI(view)
         }
 
-        getRanking(view)
     }
 
 
@@ -81,105 +85,12 @@ class RankingFragment : Fragment() {
         val regione =
             sharedPreferences.getString("regione", null)
 
-        if (nazione == null || nazione == "" || regione == null || regione == "") {
+        if (user == null || nazione == null || nazione == "" || regione == null || regione == "") {
             return
         }
 
-        FirebaseDatabase.getInstance().getReference("ranking/$nazione")
-            .orderByChild("punteggioMedio")
-            .limitToLast(10)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
+        RankHelper.updateData(user!!, nazione, regione)
 
-                override fun onDataChange(snapshot: DataSnapshot) {
-
-                    RankHelper.listGlobal = ArrayList()
-                    RankHelper.listLocal = ArrayList()
-
-                    RankHelper.listGlobal = getList(snapshot,false)
-
-
-                    FirebaseDatabase.getInstance().getReference("ranking/$regione")
-                        .orderByChild("punteggioMedio")
-                        .limitToLast(10)
-                        .addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                RankHelper.listLocal = getList(snapshot, true)
-                                RankHelper.needToUpdate = false
-                                setupUI(view)
-                            }
-
-                            override fun onCancelled(error: DatabaseError) {
-                                Log.d("SSS 2", error.message)
-                            }
-                        })
-
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.d("SSS 1", error.message)
-                }
-            })
-
-    }
-
-    private fun getList(
-        snapshot: DataSnapshot,
-        isLocal: Boolean
-    ): ArrayList<CustomObjects.UserScore> {
-
-        val list = ArrayList<CustomObjects.UserScore>()
-
-        var found = false
-        for (snap in snapshot.children) {
-            val punt = snap.child("punteggioMedio").getValue(Int::class.java)
-            val picURL = snap.child("picurl").getValue(String::class.java)
-
-            if (user != null && snap.key == user!!.uid)
-                found = true
-
-            if (punt != null && picURL != null)
-                list.add(
-                    CustomObjects.UserScore(
-                        -1,
-                        picURL,
-                        snap.key.toString(),
-                        snap.child("name").getValue(String::class.java).toString(),
-                        punt
-                    )
-                )
-        }
-
-        if (user != null && HomeHelper.positionLocal != null && HomeHelper.positionGlobal != null && HomeHelper.punteggioMedio != null && HomeHelper.picUrl != null && found.not()) {
-
-            if (isLocal)
-                list.add(
-                    CustomObjects.UserScore(
-                        HomeHelper.positionLocal!!.toInt(),
-                        HomeHelper.picUrl!!,
-                        user!!.uid,
-                        user!!.displayName.toString(),
-                        HomeHelper.punteggioMedio!!.toInt()
-                    )
-                )
-            else
-                list.add(
-                    CustomObjects.UserScore(
-                        HomeHelper.positionGlobal!!.toInt(),
-                        HomeHelper.picUrl!!,
-                        user!!.uid,
-                        user!!.displayName.toString(),
-                        HomeHelper.punteggioMedio!!.toInt()
-                    )
-                )
-        }
-
-        list.sortByDescending { it.score }
-
-        return list
-    }
-
-    private fun getLocal(): ArrayList<CustomObjects.UserScore>? {
-        return null
     }
 
     private fun setupUI(view: View) {
