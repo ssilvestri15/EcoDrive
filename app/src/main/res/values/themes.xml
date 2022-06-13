@@ -8,6 +8,7 @@
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
         <item name="fontFamily">@font/poppins</item>
         <item name="tabStyle">@style/TabStyle</item>
+        <item name="fogliaColor">@color/black</item>
     </style>
 
     <style name="GradientButton" parent="Widget.AppCompat.Button">

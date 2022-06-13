@@ -201,6 +201,9 @@ class EndSessionActivity : AppCompatActivity(), OnMapReadyCallback {
             })
         }
 
+        if (!isGamified())
+            binding.punteggioLayout.visibility = View.GONE
+
 
     }
 
@@ -208,7 +211,7 @@ class EndSessionActivity : AppCompatActivity(), OnMapReadyCallback {
 
         HomeHelper.makeHomeUpdate()
 
-        if (level != null && level > 2) {
+       /* if (level != null && level > 2) {
 
             val limitList = getLimits(level)
 
@@ -222,7 +225,7 @@ class EndSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                 startActivity(intent)
             }
 
-        }
+        }*/
 
         finish()
     }
@@ -274,7 +277,11 @@ class EndSessionActivity : AppCompatActivity(), OnMapReadyCallback {
 
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 
+    }
 
+    private fun isGamified(): Boolean {
+        val sharedPreferences = getSharedPreferences("info", MODE_PRIVATE)
+        return sharedPreferences.getBoolean("isGamified", false)
     }
 
 }

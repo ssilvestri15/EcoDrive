@@ -1,11 +1,13 @@
 package com.silvered.ecodrive.activity
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import com.google.android.gms.maps.*
@@ -38,6 +40,7 @@ class RoutesActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val peso = intent.getFloatExtra(PESO_MEDIO, 0f)
         val km = intent.getFloatExtra(KM_PERCORSI, 0f)
         val vel = intent.getFloatExtra(VEL_MEDIA, 0f)
@@ -48,15 +51,19 @@ class RoutesActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
         if (polyString == null) {
-            goToRoutesWithoutMap(data!!,km,vel,peso,punteggio)
-        }else{
+            Log.e("POLY", "NULL")
+            goToRoutesWithoutMap(data!!, km, vel, peso, punteggio)
+        } else {
 
             polylineOptions = Gson().fromJson(polyString, PolylineOptions::class.java)
 
-            if (polylineOptions == null)
-                goToRoutesWithoutMap(data!!,km,vel,peso,punteggio)
-            else
+            if (polylineOptions == null) {
+                Log.e("POLYOPT", "NULL")
+                goToRoutesWithoutMap(data!!, km, vel, peso, punteggio)
+            } else {
+                Log.e("POLYOPT", "NOT NULL")
                 listener?.onDataReady(polylineOptions!!)
+            }
         }
 
         binding = ActivityRoutesBinding.inflate(layoutInflater)
@@ -82,25 +89,46 @@ class RoutesActivity : AppCompatActivity(), OnMapReadyCallback {
 
         when (peso) {
             in 0f..0.33f -> {
-                ImageViewCompat.setImageTintList(binding.layoutResoconto.foglia1, ColorStateList.valueOf(colorPrimary))
+                ImageViewCompat.setImageTintList(
+                    binding.layoutResoconto.foglia1,
+                    ColorStateList.valueOf(colorPrimary)
+                )
             }
             in 0.34f..0.66f -> {
-                ImageViewCompat.setImageTintList(binding.layoutResoconto.foglia1, ColorStateList.valueOf(colorPrimary))
-                ImageViewCompat.setImageTintList(binding.layoutResoconto.foglia2, ColorStateList.valueOf(colorPrimary))
+                ImageViewCompat.setImageTintList(
+                    binding.layoutResoconto.foglia1,
+                    ColorStateList.valueOf(colorPrimary)
+                )
+                ImageViewCompat.setImageTintList(
+                    binding.layoutResoconto.foglia2,
+                    ColorStateList.valueOf(colorPrimary)
+                )
             }
             else -> {
-                ImageViewCompat.setImageTintList(binding.layoutResoconto.foglia1, ColorStateList.valueOf(colorPrimary))
-                ImageViewCompat.setImageTintList(binding.layoutResoconto.foglia2, ColorStateList.valueOf(colorPrimary))
-                ImageViewCompat.setImageTintList(binding.layoutResoconto.foglia3, ColorStateList.valueOf(colorPrimary))
+                ImageViewCompat.setImageTintList(
+                    binding.layoutResoconto.foglia1,
+                    ColorStateList.valueOf(colorPrimary)
+                )
+                ImageViewCompat.setImageTintList(
+                    binding.layoutResoconto.foglia2,
+                    ColorStateList.valueOf(colorPrimary)
+                )
+                ImageViewCompat.setImageTintList(
+                    binding.layoutResoconto.foglia3,
+                    ColorStateList.valueOf(colorPrimary)
+                )
             }
         }
+
+        if (!isGamified())
+            binding.layoutResoconto.punteggioLayout.visibility = View.GONE
 
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
 
         if (polylineOptions == null) {
-            listener = object: RouteInterfaceCallback {
+            listener = object : RouteInterfaceCallback {
                 override fun onDataReady(polylineOptions: PolylineOptions) {
                     onMapReady(googleMap)
                 }
@@ -112,6 +140,9 @@ class RoutesActivity : AppCompatActivity(), OnMapReadyCallback {
         val polyline = googleMap.addPolyline(polylineOptions!!)
 
         val points = polylineOptions!!.points
+
+        if (points.isEmpty())
+            return
 
         val startPoint = points.first()
 
@@ -142,9 +173,14 @@ class RoutesActivity : AppCompatActivity(), OnMapReadyCallback {
         intent.putExtra(DATA, data)
         intent.putExtra(KM_PERCORSI, km)
         intent.putExtra(VEL_MEDIA, vel)
-        intent.putExtra(PESO_MEDIO,peso)
+        intent.putExtra(PESO_MEDIO, peso)
         intent.putExtra(PUNTEGGIO, punteggio)
         startActivity(intent)
         finish()
+    }
+
+    private fun isGamified(): Boolean {
+        val sharedPreferences = getSharedPreferences("info", AppCompatActivity.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("isGamified", false)
     }
 }

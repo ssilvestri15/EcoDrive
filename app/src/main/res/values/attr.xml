@@ -3,4 +3,6 @@
     <attr name="bottom_sheet_background" format="color" />
     <attr name="bottom_sheet_textColor" format="color" />
     <attr name="bottom_sheet_pillowColor" format="color" />
+    <attr name="background_brand" format="color" />
+    <attr name="fogliaColor" format="color" />
 </resources>

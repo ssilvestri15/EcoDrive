@@ -14,6 +14,6 @@
     <item
         android:id="@+id/page_3"
         android:enabled="true"
-        android:title="Profilo"
+        android:title="Storico"
         android:icon="@drawable/profile_icon"/>
 </menu>

@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -26,6 +27,7 @@ import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseError
+import com.silvered.ecodrive.activity.SessionActivityNew
 import com.silvered.ecodrive.util.CustomObjects
 import com.silvered.ecodrive.activity.SessionActivityTest
 import com.silvered.ecodrive.adapters.GridHomeAdapter
@@ -128,12 +130,15 @@ class HomeFragment : Fragment() {
 
         if (HomeHelper.listChart!!.isNotEmpty()) {
 
-            binding.gridViewHome.adapter = GridHomeAdapter(setList())
-            binding.gridViewHome.layoutManager = GridLayoutManager(context, 2)
+            if (isGamified(myContext)) {
+                binding.gridViewHome.adapter = GridHomeAdapter(setList())
+                binding.gridViewHome.layoutManager = GridLayoutManager(context, 2)
+            }
+
             binding.levelBtn.text = HomeHelper.levelName
 
             val viewPager2 = binding.pager
-            val adapter = HomeViewPagerAdapter(this)
+            val adapter = if (isGamified(myContext)) HomeViewPagerAdapter(this) else HomeViewPagerAdapterNotGamified(this)
             viewPager2.adapter = adapter
             viewPager2.isSaveEnabled = false
             val tabLayout = binding.tabLayout
@@ -150,6 +155,9 @@ class HomeFragment : Fragment() {
                 showLevelsBottomSheet()
             }
 
+            if (!isGamified(myContext))
+                tabLayout.removeTabAt(0)
+
         } else {
             showView(binding.noDataLayout)
         }
@@ -157,7 +165,11 @@ class HomeFragment : Fragment() {
         showView(binding.startSession)
 
         binding.startSession.setOnClickListener {
-            startActivity(Intent(activity, SessionActivityTest::class.java))
+            startActivity(Intent(activity, SessionActivityNew::class.java))
+        }
+
+        if (!isGamified(myContext)) {
+            binding.levelBtn.visibility = View.GONE
         }
 
     }
@@ -241,6 +253,11 @@ class HomeFragment : Fragment() {
         view.visibility = View.GONE
     }
 
+    private fun isGamified(context: Context): Boolean {
+        val sharedPreferences = context.getSharedPreferences("info", AppCompatActivity.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("isGamified",false)
+    }
+
     override fun onDetach() {
         HomeHelper.removeListener()
         super.onDetach()
@@ -254,6 +271,7 @@ class HomeFragment : Fragment() {
     private class HomeViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
         override fun createFragment(position: Int): Fragment {
+
             return if (position == 1) HomeCardFragment.newInstance(false) else HomeCardFragment.newInstance(
                 true
             )
@@ -261,6 +279,19 @@ class HomeFragment : Fragment() {
 
         override fun getItemCount(): Int {
             return 2
+        }
+
+    }
+
+    private class HomeViewPagerAdapterNotGamified(fragment: Fragment) : FragmentStateAdapter(fragment) {
+
+        override fun createFragment(position: Int): Fragment {
+
+            return HomeCardFragment.newInstance(false)
+        }
+
+        override fun getItemCount(): Int {
+            return 1
         }
 
     }

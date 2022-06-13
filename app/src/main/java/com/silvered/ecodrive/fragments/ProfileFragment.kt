@@ -69,6 +69,8 @@ class ProfileFragment : Fragment() {
 
     private fun setupUI() {
 
+        val isGamified = isGamified(myContext)
+
         val settingsBtn = binding.settingsBtn
 
         settingsBtn.setOnClickListener {
@@ -84,6 +86,10 @@ class ProfileFragment : Fragment() {
             binding.punteggioTV.text = HomeHelper.punteggioMedio.toString()
         }
 
+        if (!isGamified) {
+            binding.punteggioSection.visibility = View.GONE
+        }
+
         binding.routesRvProfile.layoutManager = LinearLayoutManager(myContext)
 
         if (ProfileHelper.needToUpdate) {
@@ -97,7 +103,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.routesRvProfile.adapter =
-            RoutesAdapter(ProfileHelper.listRoutes!!, object : RouteAdapterCallback {
+            RoutesAdapter(isGamified,ProfileHelper.listRoutes!!, object : RouteAdapterCallback {
                 override fun onAdapterItemClick(route: CustomObjects.Route) {
                     val intent = Intent(myContext, RoutesActivity::class.java)
                     intent.putExtra(RoutesActivity.DATA, route.date)
@@ -164,6 +170,11 @@ class ProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun isGamified(context: Context): Boolean {
+        val sharedPreferences = context.getSharedPreferences("info", AppCompatActivity.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("isGamified",false)
     }
 
 }

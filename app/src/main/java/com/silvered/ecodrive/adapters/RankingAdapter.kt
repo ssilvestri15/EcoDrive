@@ -1,6 +1,7 @@
 package com.silvered.ecodrive.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,11 +30,21 @@ class RankingAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         val userScore = dataSet[position]
+
+        Log.e(
+            "INFO",
+            "[POSITION: $position] MY ID: $myUid, POSITION ID: ${userScore.id}, SCORE: ${userScore.score}"
+        )
+
 
         if (myUid != userScore.id) {
             holder.cardView.strokeWidth = 0
+        } else {
+            holder.cardView.strokeWidth = 12
         }
+
         val request: ImageRequest = ImageRequest.Builder(context)
             .data(userScore.imageURL)
             .crossfade(true)
@@ -45,11 +56,13 @@ class RankingAdapter(
         holder.nameTV.text = userScore.name
 
         if (userScore.position == -1)
-            holder.positionTV.text = "#${position+1}"
+            holder.positionTV.text = "#${position + 1}"
         else
             holder.positionTV.text = "#${userScore.position}"
 
+
         holder.pointsTV.text = "${userScore.score}"
+
     }
 
     override fun getItemCount() = dataSet.size

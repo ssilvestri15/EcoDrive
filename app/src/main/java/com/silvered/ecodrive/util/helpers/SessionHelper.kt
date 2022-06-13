@@ -1,18 +1,20 @@
 package com.silvered.ecodrive.util.helpers
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.os.Looper
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
-import java.time.Duration
-import java.time.Instant
-import java.util.concurrent.TimeUnit
-import kotlin.math.abs
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
+import com.silvered.ecodrive.R
+import java.time.Duration
+import java.time.Instant
+import kotlin.math.abs
 
 class SessionHelper {
 
@@ -207,9 +209,14 @@ class SessionHelper {
         )
         if (punteggio < 0)
             punteggio = 0f
+
+        if (punteggio > 100)
+            punteggio = 100f
+
         secondiAndamentoCostanteTotPrec = secondiAndamentoCostanteTot
 
     }
+
 
     private fun updateSDG(stileDiGuida: Float) {
 
@@ -371,15 +378,19 @@ class SessionHelper {
                     locationResult.lastLocation.latitude,
                     locationResult.lastLocation.longitude
                 )
-                addToPoly(latlng)
                 val speed = (locationResult.lastLocation.speed * 3600) / 1000
-                updateData(speed.toString())
+/*                addToPoly(latlng)
+                updateData(speed.toString())*/
+
+
             }
         }
 
         startGPS(activity)
     }
 
+
+    @SuppressLint("MissingPermission")
     fun startGPS(activity: Activity) {
 
         if (ActivityCompat.checkSelfPermission(

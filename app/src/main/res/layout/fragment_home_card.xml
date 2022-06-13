@@ -22,7 +22,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0"
-            app:strokeWidth="0dp">
+            app:strokeWidth="0dp"
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,37 +63,101 @@
                         android:visibility="gone"
                         app:radius="10dp" />
 
-                    <LinearLayout
-                        android:id="@+id/ll_foglie"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clfoglie"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:visibility="gone"
-                        android:orientation="horizontal"
-                        android:gravity="center">
+                        android:visibility="visible">
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:layout_constraintGuide_percent="0.5"/>
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.5"/>
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guide_top"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:layout_constraintGuide_percent="0.0"/>
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guide_bottom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:layout_constraintGuide_percent="1"/>
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guide_f1_start"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.1"/>
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guide_f1_end"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.37"/>
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guide_f2_end"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.64"/>
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guide_f3_end"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.9"/>
 
                         <ImageView
                             android:id="@+id/foglia1"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
                             android:src="@drawable/ic_noun_leaf_2691270"
-                            app:tint="?attr/colorOnSurface" />
+                            app:tint="?attr/colorOnSurface"
+                            app:layout_constraintTop_toTopOf="@id/guide_top"
+                            app:layout_constraintEnd_toStartOf="@id/guide_f1_end"
+                            app:layout_constraintBottom_toBottomOf="@id/guide_bottom"
+                            app:layout_constraintStart_toStartOf="@id/guide_f1_start"/>
 
                         <ImageView
                             android:id="@+id/foglia2"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
                             android:src="@drawable/ic_noun_leaf_2691270"
-                            app:tint="?attr/colorOnSurface" />
+                            app:tint="?attr/colorOnSurface"
+                            app:layout_constraintTop_toTopOf="@id/guide_top"
+                            app:layout_constraintEnd_toStartOf="@id/guide_f2_end"
+                            app:layout_constraintBottom_toBottomOf="@id/guide_bottom"
+                            app:layout_constraintStart_toEndOf="@id/guide_f1_end"/>
 
                         <ImageView
                             android:id="@+id/foglia3"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
                             android:src="@drawable/ic_noun_leaf_2691270"
-                            app:tint="?attr/colorOnSurface" />
+                            app:tint="?attr/colorOnSurface"
+                            app:layout_constraintTop_toTopOf="@id/guide_top"
+                            app:layout_constraintEnd_toStartOf="@id/guide_f3_end"
+                            app:layout_constraintBottom_toBottomOf="@id/guide_bottom"
+                            app:layout_constraintStart_toEndOf="@id/guide_f2_end"/>
 
-                    </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <ProgressBar
                         android:id="@+id/pb_points"

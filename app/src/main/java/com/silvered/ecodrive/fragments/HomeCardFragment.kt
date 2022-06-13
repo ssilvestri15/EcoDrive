@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import com.github.mikephil.charting.charts.LineChart
@@ -83,14 +84,14 @@ class HomeCardFragment : Fragment() {
         }
 
         binding.pbPoints.visibility = View.GONE
-        binding.llFoglie.visibility = View.VISIBLE
+        binding.clfoglie.visibility = View.VISIBLE
 
     }
 
     private fun setupBarChart() {
 
         binding.cardTitleTv.text = "EcoPoints"
-        binding.llFoglie.visibility = View.GONE
+        binding.clfoglie.visibility = View.GONE
 
         val entries: ArrayList<Entry> = ArrayList()
         val barChartHome: LineChart = binding.barChartHome
@@ -145,6 +146,11 @@ class HomeCardFragment : Fragment() {
         binding.pbPoints.visibility = View.GONE
         barChartHome.visibility = View.VISIBLE
 
+    }
+
+    private fun isGamified(context: Context): Boolean {
+        val sharedPreferences = context.getSharedPreferences("info", AppCompatActivity.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("isGamified",false)
     }
 
     companion object {

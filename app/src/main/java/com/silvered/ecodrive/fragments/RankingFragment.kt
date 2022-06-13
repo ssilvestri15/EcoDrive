@@ -81,13 +81,13 @@ class RankingFragment : Fragment() {
         val regione =
             sharedPreferences.getString("regione", null)
 
-        if (nazione == null || nazione == "" || regione == null || nazione == "") {
+        if (nazione == null || nazione == "" || regione == null || regione == "") {
             return
         }
 
         FirebaseDatabase.getInstance().getReference("ranking/$nazione")
             .orderByChild("punteggioMedio")
-            .limitToFirst(10)
+            .limitToLast(10)
             .addListenerForSingleValueEvent(object : ValueEventListener {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -100,7 +100,7 @@ class RankingFragment : Fragment() {
 
                     FirebaseDatabase.getInstance().getReference("ranking/$regione")
                         .orderByChild("punteggioMedio")
-                        .limitToFirst(10)
+                        .limitToLast(10)
                         .addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onDataChange(snapshot: DataSnapshot) {
                                 RankHelper.listLocal = getList(snapshot, true)

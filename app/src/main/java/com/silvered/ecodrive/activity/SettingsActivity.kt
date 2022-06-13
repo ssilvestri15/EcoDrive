@@ -27,13 +27,13 @@ class SettingsActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("info", MODE_PRIVATE)
         sharedPreferencesEditor = sharedPreferences.edit()
 
-        val isCarlaActive = sharedPreferences.getBoolean("carla",false)
+        /*val isCarlaActive = sharedPreferences.getBoolean("carla",false)
 
         binding.carlaSimulatorSwitch.isChecked = isCarlaActive
 
         binding.carlaSimulatorSwitch.setOnCheckedChangeListener { _, value ->
             sharedPreferencesEditor.putBoolean("carla",value).commit()
-        }
+        }*/
 
         binding.backBtn.setOnClickListener {
             onBackPressed()
@@ -50,4 +50,5 @@ class SettingsActivity : AppCompatActivity() {
             finish()
         }
     }
+
 }
