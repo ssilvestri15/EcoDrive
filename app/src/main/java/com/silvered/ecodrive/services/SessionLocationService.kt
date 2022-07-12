@@ -69,15 +69,16 @@ class SessionLocationService : Service() {
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
-            val latlng = LatLng(
-                locationResult.lastLocation.latitude,
-                locationResult.lastLocation.longitude
-            )
-            val speed = (locationResult.lastLocation.speed * 3600) / 1000
 
-/*
-            createNotification()
-*/
+            if (locationResult.lastLocation == null)
+                return
+
+            val latlng = LatLng(
+                locationResult.lastLocation!!.latitude,
+                locationResult.lastLocation!!.longitude
+            )
+            val speed = (locationResult.lastLocation!!.speed * 3600) / 1000
+
             addToPoly(latlng)
             updateData(speed.toString())
         }

@@ -25,11 +25,20 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
 import com.silvered.ecodrive.R
 import com.silvered.ecodrive.databinding.ActivitySessionNewBinding
 import com.silvered.ecodrive.services.SessionLocationService
+import com.silvered.ecodrive.util.DataSaver
 import com.silvered.ecodrive.util.helpers.ErrorHelper
+import com.silvered.ecodrive.util.helpers.HomeHelper
+import com.silvered.ecodrive.util.helpers.ProfileHelper
+import com.silvered.ecodrive.util.helpers.RankHelper
 import kotlin.math.abs
 
 class SessionActivityNew : AppCompatActivity() {
@@ -278,6 +287,25 @@ class SessionActivityNew : AppCompatActivity() {
     private fun tearDown(results: ArrayList<Float>, polyMaps: PolylineOptions?) {
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(sessionReceiver)
+
+        if (activityVisible.not()) {
+
+            val polyString = Gson().toJson(polyMaps)
+            val sharedPreferences = getSharedPreferences("info", MODE_PRIVATE)
+
+            DataSaver.saveData(
+                results[0],
+                results[1],
+                results[2],
+                results[3],
+                polyString,
+                sharedPreferences
+            ) {
+            }
+
+            return
+        }
+
         val intent = Intent(this, EndSessionActivity::class.java)
         intent.putExtra(EndSessionActivity.PESO_MEDIO, results[0])
         intent.putExtra(EndSessionActivity.KM_PERCORSI, results[1])
@@ -591,10 +619,6 @@ class SessionActivityNew : AppCompatActivity() {
         super.onPause()
     }
 
-    override fun onStop() {
-        activityPaused()
-        super.onStop()
-    }
 
     companion object {
         private const val MY_PERMISSIONS_REQUEST_LOCATION = 99

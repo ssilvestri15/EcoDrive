@@ -374,11 +374,15 @@ class SessionHelper {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 super.onLocationResult(locationResult)
+
+                if (locationResult.lastLocation == null)
+                    return
+
                 val latlng = LatLng(
-                    locationResult.lastLocation.latitude,
-                    locationResult.lastLocation.longitude
+                    locationResult.lastLocation!!.latitude,
+                    locationResult.lastLocation!!.longitude
                 )
-                val speed = (locationResult.lastLocation.speed * 3600) / 1000
+                val speed = (locationResult.lastLocation!!.speed * 3600) / 1000
 /*                addToPoly(latlng)
                 updateData(speed.toString())*/
 
