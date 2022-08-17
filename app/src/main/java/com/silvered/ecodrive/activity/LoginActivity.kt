@@ -57,57 +57,67 @@ class LoginActivity : AppCompatActivity() {
 
         sharedPref = getSharedPreferences("info", MODE_PRIVATE)
 
-        firebaseAuth = FirebaseAuth.getInstance()
-        if (firebaseAuth.currentUser != null) {
+        val onboarding = sharedPref.getBoolean("isFirstTime", true)
 
-            Firebase.database.reference.child("users").child(firebaseAuth.currentUser!!.uid)
-                .addListenerForSingleValueEvent(object :
-                    ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+        if (onboarding) {
+            val intent = Intent(this@LoginActivity, OnBoardingActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
 
-                        if (!dataSnapshot.exists()) {
+            firebaseAuth = FirebaseAuth.getInstance()
+            if (firebaseAuth.currentUser != null) {
+
+                Firebase.database.reference.child("users").child(firebaseAuth.currentUser!!.uid)
+                    .addListenerForSingleValueEvent(object :
+                        ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                            if (!dataSnapshot.exists()) {
+                                firebaseAuth.signOut()
+                                sharedPref.edit().clear().commit()
+                                binding.dummyIcon.visibility = View.GONE
+                                return
+                            }
+
+                            val nazione = dataSnapshot.child("nazione").getValue(String::class.java)
+                            val regione = dataSnapshot.child("regione").getValue(String::class.java)
+                            var isGamified =
+                                dataSnapshot.child("isGamified").getValue(Boolean::class.java)
+
+                            if (nazione == null || regione == null) {
+                                goToCountryActvity()
+                                return
+                            }
+
+                            var uid = firebaseAuth.currentUser!!.uid.filter { it.isDigit() }
+
+                            if (uid.length >= 10)
+                                uid = uid.substring(0,8)
+
+                            if (isGamified == null)
+                                isGamified = uid.toInt() % 2 == 0
+
+                            val editor = sharedPref.edit()
+                            editor.putString("nazione", nazione)
+                            editor.putString("regione", regione)
+                            editor.putBoolean("isGamified", isGamified)
+                            editor.commit()
+                            goToMainActivity()
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
                             firebaseAuth.signOut()
                             sharedPref.edit().clear().commit()
                             binding.dummyIcon.visibility = View.GONE
-                            return
                         }
 
-                        val nazione = dataSnapshot.child("nazione").getValue(String::class.java)
-                        val regione = dataSnapshot.child("regione").getValue(String::class.java)
-                        var isGamified =
-                            dataSnapshot.child("isGamified").getValue(Boolean::class.java)
+                    })
 
-                        if (nazione == null || regione == null) {
-                            goToCountryActvity()
-                            return
-                        }
+            } else {
+                binding.dummyIcon.visibility = View.GONE
+            }
 
-                        var uid = firebaseAuth.currentUser!!.uid.filter { it.isDigit() }
-
-                        if (uid.length >= 10)
-                            uid = uid.substring(0,8)
-
-                        if (isGamified == null)
-                            isGamified = uid.toInt() % 2 == 0
-
-                        val editor = sharedPref.edit()
-                        editor.putString("nazione", nazione)
-                        editor.putString("regione", regione)
-                        editor.putBoolean("isGamified", isGamified)
-                        editor.commit()
-                        goToMainActivity()
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                        firebaseAuth.signOut()
-                        sharedPref.edit().clear().commit()
-                        binding.dummyIcon.visibility = View.GONE
-                    }
-
-                })
-
-        } else {
-            binding.dummyIcon.visibility = View.GONE
         }
 
 

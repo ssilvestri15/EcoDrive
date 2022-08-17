@@ -1,18 +1,25 @@
 package com.silvered.ecodrive.activity
 
+import android.app.AlarmManager
 import android.app.Application
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.work.WorkManager
-import com.google.android.material.color.DynamicColors
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.MapsInitializer.Renderer
 import com.google.android.gms.maps.OnMapsSdkInitializedCallback
+import com.google.android.material.color.DynamicColors
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.silvered.ecodrive.services.NotificationReceiver
+import java.util.*
+
 
 class StartClass:Application(), OnMapsSdkInitializedCallback {
 
@@ -22,6 +29,11 @@ class StartClass:Application(), OnMapsSdkInitializedCallback {
         DynamicColors.applyToActivitiesIfAvailable(this)
         MapsInitializer.initialize(applicationContext, Renderer.LATEST, this)
         val sharedPref = getSharedPreferences("info", MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        val now = System.currentTimeMillis()
+        editor.putString("lastOpen", now.toString()).commit()
+        scheduleNot()
+
 
         val firebaseAuth = FirebaseAuth.getInstance()
         if (firebaseAuth.currentUser != null) {
@@ -43,7 +55,6 @@ class StartClass:Application(), OnMapsSdkInitializedCallback {
                     if (isGamified == null)
                         isGamified = (firebaseAuth.currentUser!!.uid.filter { it.isDigit() }).toInt()%2 == 0
 
-                    val editor = sharedPref.edit()
                     editor.putString("nazione", nazione)
                     editor.putString("regione",regione)
                     editor.putBoolean("isGamified",isGamified)
@@ -62,6 +73,24 @@ class StartClass:Application(), OnMapsSdkInitializedCallback {
             })
 
         }
+    }
+
+    private fun scheduleNot() {
+
+        val calendar = Calendar.getInstance()
+
+        calendar[Calendar.HOUR_OF_DAY] = 14
+        calendar[Calendar.MINUTE] = 0
+        calendar[Calendar.SECOND] = 0
+
+        val alarmManager = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(applicationContext,NotificationReceiver::class.java)
+        intent.putExtra("title","EcoDrive")
+        intent.putExtra("body","Ehi! Sembra che non stai utilizzando l'app da un po', fai una sessione di guida ora!")
+        val pendingFlags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        val pendingIntent = PendingIntent.getBroadcast(applicationContext,66,intent, pendingFlags)
+        alarmManager.setRepeating(AlarmManager.RTC,calendar.timeInMillis,AlarmManager.INTERVAL_DAY,pendingIntent)
+
     }
 
     override fun onMapsSdkInitialized(renderer: MapsInitializer.Renderer) {

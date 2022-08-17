@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.OnBoardFirstFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Come usare l’app"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toTopOf="@+id/guideline7" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.03" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.97" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/circle"
+                app:layout_constraintBottom_toBottomOf="@id/materialTextView4"
+                app:layout_constraintEnd_toEndOf="@+id/materialTextView4"
+                app:layout_constraintStart_toStartOf="@+id/materialTextView4"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView4"
+                android:layout_marginBottom="30dp"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="#B3E856"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:text="1."
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintHorizontal_bias="0.15"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="80dp"
+                android:text="Effettua il login"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintHorizontal_bias="0.15"
+                app:layout_constraintStart_toEndOf="@+id/materialTextView4"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/circle"
+                android:backgroundTint="#facc21"
+                app:layout_constraintBottom_toBottomOf="@id/materialTextView6"
+                app:layout_constraintEnd_toEndOf="@+id/materialTextView6"
+                app:layout_constraintStart_toStartOf="@+id/materialTextView6"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView6" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:text="2."
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintHorizontal_bias="0.15"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView4" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="80dp"
+                android:text="Inizia una nuova sessione"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintHorizontal_bias="0.15"
+                app:layout_constraintStart_toEndOf="@+id/materialTextView6"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView4" />
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/circle"
+                android:backgroundTint="#f66320"
+                app:layout_constraintBottom_toBottomOf="@id/materialTextView8"
+                app:layout_constraintEnd_toEndOf="@+id/materialTextView8"
+                app:layout_constraintStart_toStartOf="@+id/materialTextView8"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView8" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:text="3."
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintHorizontal_bias="0.15"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView6" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Guida"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintHorizontal_bias="0.15"
+                app:layout_constraintStart_toEndOf="@+id/materialTextView8"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView8" />
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/circle"
+                android:backgroundTint="#f64d5a"
+                app:layout_constraintBottom_toBottomOf="@id/materialTextView10"
+                app:layout_constraintEnd_toEndOf="@+id/materialTextView10"
+                app:layout_constraintStart_toStartOf="@+id/materialTextView10"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView10" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:text="4."
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintHorizontal_bias="0.15"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView8" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView11"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Termina sessione"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintHorizontal_bias="0.15"
+                app:layout_constraintStart_toEndOf="@+id/materialTextView10"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView10" />
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/circle"
+                android:backgroundTint="#8f82ea"
+                app:layout_constraintBottom_toBottomOf="@id/materialTextView12"
+                app:layout_constraintEnd_toEndOf="@+id/materialTextView12"
+                app:layout_constraintStart_toStartOf="@+id/materialTextView12"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView12" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:text="5."
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintHorizontal_bias="0.15"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView10" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView13"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Controlla il tuo andamento!"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintHorizontal_bias="0.15"
+                app:layout_constraintStart_toEndOf="@+id/materialTextView12"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView12" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/materialButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ho capito!"
+                android:textAllCaps="false"
+                app:layout_constraintBottom_toTopOf="@+id/guideline8"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView13"
+                android:layout_margin="60dp"/>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</FrameLayout>

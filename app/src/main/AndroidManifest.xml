@@ -20,9 +20,13 @@
         android:theme="@style/AppTheme"
         tools:targetApi="32">
         <activity
+            android:name=".activity.OnBoardingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.FormActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SessionActivityNew"
             android:exported="false"
@@ -84,25 +88,25 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".services.SessionLocationService"
             android:enabled="true"
-            android:foregroundServiceType="location"/>
+            android:foregroundServiceType="location" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_launcher_foreground" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/white" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/CHANNEL" />
 
-
+        <receiver
+            android:name=".services.NotificationReceiver"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>
